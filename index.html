@@ -6,82 +6,116 @@
     <title>상담 신청</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { font-weight: 800 !important; color: #ffffff; }
-        body { background-color: #000000; font-family: 'Pretendard', sans-serif; }
-        .border-thick { border: 3px solid #ffffff; }
-        .input-thick { border-bottom: 3px solid #000000 !important; }
-        .btn-main { border: 3px solid #ffffff; transition: 0.2s; }
+        /* 모든 글자와 숫자를 가장 진하게 */
+        * { font-weight: 900 !important; color: #ffffff; letter-spacing: -0.5px; }
+        body { background-color: #000000; font-family: 'Pretendard', sans-serif; overflow-x: hidden; }
+        
+        /* 선 굵기 강화 */
+        .border-thick { border: 4px solid #ffffff; }
+        .input-thick { border-bottom: 4px solid #000000 !important; }
+        
+        /* 버튼 스타일 */
+        .btn-main { border: 3px solid #ffffff; transition: 0.1s; display: flex; align-items: center; justify-content: center; }
         .btn-main:hover { background-color: #ffffff; color: #000000 !important; }
-        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; background-color: #333; }
-        .modal-capsule { background-color: #000000; color: #ffffff !important; padding: 10px 24px; border-radius: 9999px; display: inline-block; margin-bottom: 20px; }
+        .btn-main:disabled { opacity: 0.2; cursor: not-allowed; background-color: #222; border-color: #444; }
+
+        /* 모달 타이틀: 검정 타원형 */
+        .modal-capsule {
+            background-color: #000000;
+            color: #ffffff !important;
+            padding: 12px 28px;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 2px solid #000000;
+        }
+
         .hidden { display: none; }
-        input { color: #000000 !important; }
+        input { color: #000000 !important; font-weight: 800 !important; }
     </style>
 </head>
 <body>
 
     <div id="landing" class="flex items-center justify-center min-h-screen">
-        <button onclick="enterApp()" class="btn-main px-16 py-6 rounded-full text-2xl uppercase">상담 신청하기</button>
+        <button onclick="enterApp()" class="btn-main px-20 py-8 rounded-full text-3xl uppercase italic">
+            상담 신청하기
+        </button>
     </div>
 
-    <div id="main" class="hidden max-w-6xl mx-auto p-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
-            <div class="border-thick p-6 rounded-3xl text-center">
-                <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">금요일</h2>
-                <div class="flex flex-col gap-4" id="fri-list">
-                    <script>
-                        ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="금요일_${t}">${t}</button>`);
-                        });
-                    </script>
+    <div id="main" class="hidden max-w-[1200px] mx-auto p-4">
+        <div class="flex flex-col gap-6 mt-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border-thick p-5 rounded-[30px] text-center">
+                    <h2 class="text-2xl mb-4 bg-white text-black px-6 py-1 rounded-full inline-block !color-black">금요일</h2>
+                    <div class="grid grid-cols-3 gap-3">
+                        <script>
+                            ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
+                                document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-3 rounded-xl text-base" data-key="금요일_${t}">${t}</button>`);
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="border-thick p-5 rounded-[30px] text-center">
+                    <h2 class="text-2xl mb-4 bg-white text-black px-6 py-1 rounded-full inline-block !color-black">일요일</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <script>
+                            ['10:00','10:30','11:00','11:30'].forEach(t => {
+                                document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-3 rounded-xl text-base" data-key="일요일_${t}">${t}</button>`);
+                            });
+                        </script>
+                    </div>
                 </div>
             </div>
-            <div class="border-thick p-6 rounded-3xl text-center">
-                <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">토요일</h2>
-                <div class="flex flex-col gap-4">
+
+            <div class="border-thick p-6 rounded-[40px] text-center">
+                <h2 class="text-3xl mb-6 bg-white text-black px-10 py-1 rounded-full inline-block !color-black">토요일</h2>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                     <script>
                         ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="토요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-4 rounded-2xl text-lg" data-key="토요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
             </div>
-            <div class="border-thick p-6 rounded-3xl text-center">
-                <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">일요일</h2>
-                <div class="flex flex-col gap-4">
-                    <script>
-                        ['10:00','10:30','11:00','11:30'].forEach(t => {
-                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="일요일_${t}">${t}</button>`);
-                        });
-                    </script>
-                </div>
-            </div>
+
         </div>
     </div>
 
-    <div id="modal" class="hidden fixed inset-0 bg-white/20 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-10 rounded-[40px] w-full max-w-md border-[4px] border-black shadow-2xl">
-            <div class="text-center"><span id="modal-title" class="modal-capsule text-xl font-black"></span></div>
+    <div id="modal" class="hidden fixed inset-0 bg-white/10 backdrop-blur-lg flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-10 rounded-[50px] w-full max-w-md shadow-2xl border-[6px] border-black">
+            <div class="text-center">
+                <span id="modal-title" class="modal-capsule text-2xl font-black"></span>
+            </div>
+            
             <form id="applyForm" class="space-y-6">
-                <input type="hidden" name="day" id="f-day"><input type="hidden" name="time" id="f-time">
-                <input type="text" name="name" placeholder="이름" required class="input-thick text-black text-lg p-2 outline-none w-full">
-                <input type="number" name="age" placeholder="나이" min="1" required class="input-thick text-black text-lg p-2 outline-none w-full">
-                <input type="text" name="attic" placeholder="다락방 (예: 홍길동 다락방)" required class="input-thick text-black text-lg p-2 outline-none w-full">
-                <input type="tel" name="phone" placeholder="연락처 (01012345678)" required class="input-thick text-black text-lg p-2 outline-none w-full">
-                <div class="flex gap-10 justify-center py-4 text-black">
-                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-5 h-5 accent-black"> <span style="color:black !important">남자</span></label>
-                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-5 h-5 accent-black"> <span style="color:black !important">여자</span></label>
+                <input type="hidden" name="day" id="f-day">
+                <input type="hidden" name="time" id="f-time">
+                
+                <input type="text" name="name" placeholder="이름" required class="input-thick text-black text-xl p-3 outline-none w-full">
+                <input type="number" name="age" placeholder="나이" min="1" required class="input-thick text-black text-xl p-3 outline-none w-full">
+                <input type="text" name="attic" placeholder="다락방 (예: 홍길동 다락방)" required class="input-thick text-black text-xl p-3 outline-none w-full">
+                <input type="tel" name="phone" placeholder="연락처 (01012345678)" required class="input-thick text-black text-xl p-3 outline-none w-full">
+                
+                <div class="flex gap-10 justify-center py-4">
+                    <label class="flex items-center gap-3 cursor-pointer text-black text-xl">
+                        <input type="radio" name="gender" value="남자" required class="w-6 h-6 accent-black"> 남자
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer text-black text-xl">
+                        <input type="radio" name="gender" value="여자" class="w-6 h-6 accent-black"> 여자
+                    </label>
                 </div>
-                <div class="flex gap-4 pt-6">
-                    <button type="button" onclick="closeForm()" class="flex-1 py-4 border-[3px] border-black text-black font-black rounded-2xl hover:bg-gray-100"><span style="color:black !important">취소</span></button>
-                    <button type="submit" id="submitBtn" class="flex-1 py-4 bg-black text-white font-black rounded-2xl">신청하기</button>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeForm()" class="flex-1 py-5 border-[4px] border-black text-black font-black rounded-3xl text-xl">취소</button>
+                    <button type="submit" id="submitBtn" class="flex-1 py-5 bg-black text-white font-black rounded-3xl text-xl">신청하기</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKWATdo_3m-RXSWjFNJZyVEg3mceIVTffT37REGQZO_D9zATieUOiFIwhk2NnfMHMlqQ/exec'; 
+        const SCRIPT_URL = '호인님의_스크립트_URL'; 
 
         function enterApp() {
             document.getElementById('landing').classList.add('hidden');
@@ -95,7 +129,7 @@
                     const key = btn.getAttribute('data-key');
                     if(closedSlots[key]) {
                         btn.disabled = true;
-                        btn.innerText = `${key.split('_')[1]} (마감)`;
+                        btn.innerText = "마감";
                     }
                 });
             });
@@ -104,7 +138,7 @@
         function openForm(d, t) {
             document.getElementById('f-day').value = d;
             document.getElementById('f-time').value = t;
-            document.getElementById('modal-title').innerText = `${d} ${t} 신청`;
+            document.getElementById('modal-title').innerText = `${d} ${t}`;
             document.getElementById('modal').classList.remove('hidden');
         }
 
@@ -113,11 +147,18 @@
         document.getElementById('applyForm').addEventListener('submit', e => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerText = "처리 중...";
+            btn.disabled = true;
+            btn.innerText = "중...";
+
             fetch(SCRIPT_URL, { method: 'POST', body: new FormData(e.target) })
             .then(res => res.text()).then(result => {
-                if(result === "Success") { location.reload(); } 
-                else { alert(result); btn.disabled = false; btn.innerText = "신청하기"; }
+                if(result === "Success") {
+                    location.reload(); 
+                } else {
+                    alert(result);
+                    btn.disabled = false;
+                    btn.innerText = "신청하기";
+                }
             });
         });
     </script>
