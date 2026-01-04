@@ -6,98 +6,75 @@
     <title>상담 신청</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 모든 글자와 숫자를 진하게 */
         * { font-weight: 800 !important; color: #ffffff; }
         body { background-color: #000000; font-family: 'Pretendard', sans-serif; }
-        
-        /* 선 굵기 조절 (굵고 선명하게) */
         .border-thick { border: 3px solid #ffffff; }
         .input-thick { border-bottom: 3px solid #000000 !important; }
-        
-        /* 버튼 스타일 */
         .btn-main { border: 3px solid #ffffff; transition: 0.2s; }
         .btn-main:hover { background-color: #ffffff; color: #000000 !important; }
-        .btn-main:disabled { opacity: 0.2; cursor: not-allowed; }
-
-        /* 모달 타이틀: 검정 타원형 원 + 흰색 글자 */
-        .modal-capsule {
-            background-color: #000000;
-            color: #ffffff !important;
-            padding: 10px 24px;
-            border-radius: 9999px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
+        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; background-color: #333; }
+        .modal-capsule { background-color: #000000; color: #ffffff !important; padding: 10px 24px; border-radius: 9999px; display: inline-block; margin-bottom: 20px; }
         .hidden { display: none; }
-        input, select { color: #000000 !important; }
+        input { color: #000000 !important; }
     </style>
 </head>
 <body>
 
     <div id="landing" class="flex items-center justify-center min-h-screen">
-        <button onclick="enterApp()" class="btn-main px-16 py-6 rounded-full text-2xl uppercase tracking-tighter">
-            상담 신청하기
-        </button>
+        <button onclick="enterApp()" class="btn-main px-16 py-6 rounded-full text-2xl uppercase">상담 신청하기</button>
     </div>
 
-    <div id="main" class="hidden max-w-5xl mx-auto p-6">
+    <div id="main" class="hidden max-w-6xl mx-auto p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
-            <div class="border-thick p-6 rounded-3xl">
+            <div class="border-thick p-6 rounded-3xl text-center">
                 <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">금요일</h2>
-                <div class="flex flex-col gap-4">
-                    <button onclick="openForm('금요일', '14:30')" class="btn-main py-3 rounded-xl text-lg" data-key="금요일_14:30">14:30 (남은 자리: 10)</button>
-                    <button onclick="openForm('금요일', '15:30')" class="btn-main py-3 rounded-xl text-lg" data-key="금요일_15:30">15:30 (남은 자리: 10)</button>
-                    <button onclick="openForm('금요일', '16:30')" class="btn-main py-3 rounded-xl text-lg" data-key="금요일_16:30">16:30 (남은 자리: 10)</button>
-                </div>
-            </div>
-            <div class="border-thick p-6 rounded-3xl">
-                <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">토요일</h2>
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4" id="fri-list">
                     <script>
-                        ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="토요일_${t}">${t} (남은 자리: 10)</button>`);
+                        ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
+                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="금요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
             </div>
-            <div class="border-thick p-6 rounded-3xl">
+            <div class="border-thick p-6 rounded-3xl text-center">
+                <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">토요일</h2>
+                <div class="flex flex-col gap-4">
+                    <script>
+                        ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
+                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="토요일_${t}">${t}</button>`);
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="border-thick p-6 rounded-3xl text-center">
                 <h2 class="text-2xl mb-8 border-b-4 border-white pb-2 inline-block">일요일</h2>
                 <div class="flex flex-col gap-4">
-                    <button onclick="openForm('일요일', '09:00')" class="btn-main py-3 rounded-xl text-lg" data-key="일요일_09:00">09:00 (남은 자리: 10)</button>
-                    <button onclick="openForm('일요일', '10:00')" class="btn-main py-3 rounded-xl text-lg" data-key="일요일_10:00">10:00 (남은 자리: 10)</button>
+                    <script>
+                        ['10:00','10:30','11:00','11:30'].forEach(t => {
+                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-3 rounded-xl text-lg" data-key="일요일_${t}">${t}</button>`);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="modal" class="hidden fixed inset-0 bg-white/20 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-10 rounded-[40px] w-full max-w-md shadow-2xl border-[4px] border-black">
-            <div class="text-center">
-                <span id="modal-title" class="modal-capsule text-xl font-black"></span>
-            </div>
-            
+        <div class="bg-white p-10 rounded-[40px] w-full max-w-md border-[4px] border-black shadow-2xl">
+            <div class="text-center"><span id="modal-title" class="modal-capsule text-xl font-black"></span></div>
             <form id="applyForm" class="space-y-6">
-                <input type="hidden" name="day" id="f-day">
-                <input type="hidden" name="time" id="f-time">
-                
+                <input type="hidden" name="day" id="f-day"><input type="hidden" name="time" id="f-time">
                 <input type="text" name="name" placeholder="이름" required class="input-thick text-black text-lg p-2 outline-none w-full">
                 <input type="number" name="age" placeholder="나이" min="1" required class="input-thick text-black text-lg p-2 outline-none w-full">
                 <input type="text" name="attic" placeholder="다락방 (예: 홍길동 다락방)" required class="input-thick text-black text-lg p-2 outline-none w-full">
                 <input type="tel" name="phone" placeholder="연락처 (01012345678)" required class="input-thick text-black text-lg p-2 outline-none w-full">
-                
-                <div class="flex gap-10 justify-center py-4">
-                    <label class="flex items-center gap-3 cursor-pointer text-black">
-                        <input type="radio" name="gender" value="남자" required class="w-5 h-5 accent-black"> 남자
-                    </label>
-                    <label class="flex items-center gap-3 cursor-pointer text-black">
-                        <input type="radio" name="gender" value="여자" class="w-5 h-5 accent-black"> 여자
-                    </label>
+                <div class="flex gap-10 justify-center py-4 text-black">
+                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-5 h-5 accent-black"> <span style="color:black !important">남자</span></label>
+                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-5 h-5 accent-black"> <span style="color:black !important">여자</span></label>
                 </div>
-                
                 <div class="flex gap-4 pt-6">
-                    <button type="button" onclick="closeForm()" class="flex-1 py-4 border-[3px] border-black text-black font-black rounded-2xl hover:bg-gray-100">취소</button>
-                    <button type="submit" id="submitBtn" class="flex-1 py-4 bg-black text-white font-black rounded-2xl shadow-lg">신청하기</button>
+                    <button type="button" onclick="closeForm()" class="flex-1 py-4 border-[3px] border-black text-black font-black rounded-2xl hover:bg-gray-100"><span style="color:black !important">취소</span></button>
+                    <button type="submit" id="submitBtn" class="flex-1 py-4 bg-black text-white font-black rounded-2xl">신청하기</button>
                 </div>
             </form>
         </div>
@@ -106,23 +83,18 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKWATdo_3m-RXSWjFNJZyVEg3mceIVTffT37REGQZO_D9zATieUOiFIwhk2NnfMHMlqQ/exec'; 
 
-        // 페이지 로드 시 바로 인원수 업데이트
-        window.onload = updateSeats;
-
         function enterApp() {
             document.getElementById('landing').classList.add('hidden');
             document.getElementById('main').classList.remove('hidden');
-            updateSeats(); 
+            checkClosed();
         }
 
-        function updateSeats() {
-            fetch(SCRIPT_URL).then(r => r.json()).then(counts => {
+        function checkClosed() {
+            fetch(SCRIPT_URL).then(r => r.json()).then(closedSlots => {
                 document.querySelectorAll('[data-key]').forEach(btn => {
                     const key = btn.getAttribute('data-key');
-                    const left = 10 - (counts[key] || 0);
-                    btn.innerText = `${key.split('_')[1]} (남은 자리: ${left})`;
-                    if(left <= 0) { 
-                        btn.disabled = true; 
+                    if(closedSlots[key]) {
+                        btn.disabled = true;
                         btn.innerText = `${key.split('_')[1]} (마감)`;
                     }
                 });
@@ -141,18 +113,11 @@
         document.getElementById('applyForm').addEventListener('submit', e => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerText = "처리 중...";
-
+            btn.disabled = true; btn.innerText = "처리 중...";
             fetch(SCRIPT_URL, { method: 'POST', body: new FormData(e.target) })
             .then(res => res.text()).then(result => {
-                if(result === "Success") {
-                    location.reload(); 
-                } else {
-                    alert(result);
-                    btn.disabled = false;
-                    btn.innerText = "신청하기";
-                }
+                if(result === "Success") { location.reload(); } 
+                else { alert(result); btn.disabled = false; btn.innerText = "신청하기"; }
             });
         });
     </script>
