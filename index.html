@@ -3,124 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>익명 상담 신청 사이트</title>
+    <title>상담 신청</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .time-btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 50; }
-        .modal.active { display: flex; }
+        body { background-color: #000000; color: #ffffff; font-family: 'Pretendard', sans-serif; }
+        .btn-black { border: 1px solid #ffffff; color: #ffffff; transition: 0.3s; }
+        .btn-black:hover { background-color: #ffffff; color: #000000; }
+        .hidden { display: none; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col items-center p-6">
+<body>
 
-    <header class="text-center mb-10 mt-10">
-        <h1 class="text-3xl font-bold text-slate-800 mb-4">상담 신청 사이트</h1>
-        <p class="text-slate-600">원하시는 상담 시간을 선택해주세요.</p>
-    </header>
+    <div id="landing" class="flex flex-col items-center justify-center min-h-screen">
+        <h1 class="text-4xl font-bold mb-10">상담 신청</h1>
+        <button onclick="startApp()" class="btn-black px-10 py-4 rounded-full text-xl font-bold">상담 신청하기</button>
+    </div>
 
-    <main class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div>
-                <h2 class="font-bold text-red-500 mb-3 border-b pb-2">금요일 (Fri)</h2>
-                <div class="space-y-2" id="friday-slots">
-                    <button onclick="openModal('금요일', '14:30')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">14:30</button>
-                    <button onclick="openModal('금요일', '15:30')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">15:30</button>
-                    <button onclick="openModal('금요일', '16:30')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition">16:30</button>
+    <div id="main" class="hidden max-w-4xl mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center py-10">상담 신청</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="border border-white p-4 rounded-xl">
+                <h2 class="text-xl font-bold mb-4">금요일</h2>
+                <div class="flex flex-col gap-3" id="Fri-btns">
+                    <button onclick="openForm('금요일', '14:30')" class="btn-black py-2 rounded" data-key="금요일_14:30">14:30</button>
+                    <button onclick="openForm('금요일', '15:30')" class="btn-black py-2 rounded" data-key="금요일_15:30">15:30</button>
+                    <button onclick="openForm('금요일', '16:30')" class="btn-black py-2 rounded" data-key="금요일_16:30">16:30</button>
                 </div>
             </div>
-
-            <div>
-                <h2 class="font-bold text-orange-500 mb-3 border-b pb-2">토요일 (Sat)</h2>
-                <div class="space-y-2">
-                    <button onclick="openModal('토요일', '09:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">09:00</button>
-                    <button onclick="openModal('토요일', '10:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">10:00</button>
-                    <button onclick="openModal('토요일', '11:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">11:00</button>
-                    <button onclick="openModal('토요일', '13:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">13:00</button>
-                    <button onclick="openModal('토요일', '14:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">14:00</button>
-                    <button onclick="openModal('토요일', '15:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">15:00</button>
-                    <button onclick="openModal('토요일', '16:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">16:00</button>
-                    <button onclick="openModal('토요일', '17:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">17:00</button>
+            <div class="border border-white p-4 rounded-xl">
+                <h2 class="text-xl font-bold mb-4">토요일</h2>
+                <div class="flex flex-col gap-3">
+                    <script>
+                        ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'].forEach(t => {
+                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-black py-2 rounded" data-key="토요일_${t}">${t}</button>`);
+                        });
+                    </script>
                 </div>
             </div>
-
-            <div>
-                <h2 class="font-bold text-green-600 mb-3 border-b pb-2">주일 (Sun)</h2>
-                <div class="space-y-2">
-                    <button onclick="openModal('주일', '09:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">09:00</button>
-                    <button onclick="openModal('주일', '10:00')" class="w-full py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">10:00</button>
+            <div class="border border-white p-4 rounded-xl">
+                <h2 class="text-xl font-bold mb-4">일요일</h2>
+                <div class="flex flex-col gap-3">
+                    <button onclick="openForm('일요일', '09:00')" class="btn-black py-2 rounded" data-key="일요일_09:00">09:00</button>
+                    <button onclick="openForm('일요일', '10:00')" class="btn-black py-2 rounded" data-key="일요일_10:00">10:00</button>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <div id="applyModal" class="modal">
-        <div class="bg-white p-8 rounded-2xl w-full max-w-md mx-4 shadow-2xl">
-            <h3 id="modalTitle" class="text-xl font-bold mb-6 text-center"></h3>
-            
+    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center p-4">
+        <div class="bg-white text-black p-8 rounded-2xl w-full max-w-md">
+            <h2 id="form-title" class="text-2xl font-bold mb-6 underline"></h2>
             <form id="applyForm" class="space-y-4">
-                <input type="hidden" name="day" id="inputDay">
-                <input type="hidden" name="time" id="inputTime">
-                
-                <input type="text" name="name" placeholder="이름" required class="w-full border rounded-lg p-3 outline-blue-500">
-                <input type="number" name="age" placeholder="나이" required class="w-full border rounded-lg p-3 outline-blue-500">
-                <input type="text" name="attic" placeholder="다락방 (소속)" required class="w-full border rounded-lg p-3 outline-blue-500">
-                <input type="tel" name="phone" placeholder="연락처 (예: 01012345678)" required class="w-full border rounded-lg p-3 outline-blue-500">
-                
-                <div class="flex items-center gap-6 py-2 border-b">
-                    <span class="text-slate-600 font-medium">성별</span>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="gender" value="남자" required class="w-4 h-4"> 남자
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" name="gender" value="여자" class="w-4 h-4"> 여자
-                    </label>
+                <input type="hidden" name="day" id="day-val">
+                <input type="hidden" name="time" id="time-val">
+                <input type="text" name="name" placeholder="이름" required class="w-full border-b border-black p-2 outline-none">
+                <input type="number" name="age" placeholder="나이" min="1" required class="w-full border-b border-black p-2 outline-none">
+                <input type="text" name="attic" placeholder="다락방 (예: 홍길동 다락방)" required class="w-full border-b border-black p-2 outline-none">
+                <input type="tel" name="phone" placeholder="연락처 (01012345678)" required class="w-full border-b border-black p-2 outline-none">
+                <div class="flex gap-4 font-bold py-2">
+                    <label><input type="radio" name="gender" value="남자" required class="mr-2">남자</label>
+                    <label><input type="radio" name="gender" value="여자" class="mr-2">여자</label>
                 </div>
-
                 <div class="flex gap-2 pt-4">
-                    <button type="button" onclick="closeModal()" class="flex-1 py-3 bg-slate-200 rounded-lg">취소</button>
-                    <button type="submit" id="submitBtn" class="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">신청하기</button>
+                    <button type="button" onclick="closeForm()" class="flex-1 py-3 border border-black font-bold">취소</button>
+                    <button type="submit" id="submitBtn" class="flex-1 py-3 bg-black text-white font-bold">신청하기</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbz2plpAlfqrLJUW5id_sm_mZmCxYu_tNs7n_l9-r21GTZOlqKB48e1_xFEedsQxqiKB/exec'; // 반드시 교체!
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKWATdo_3m-RXSWjFNJZyVEg3mceIVTffT37REGQZO_D9zATieUOiFIwhk2NnfMHMlqQ/exec'; // 본인의 URL로 교체 필수
 
-        function openModal(day, time) {
-            document.getElementById('inputDay').value = day;
-            document.getElementById('inputTime').value = time;
-            document.getElementById('modalTitle').innerText = `${day} ${time} 신청하기`;
-            document.getElementById('applyModal').classList.add('active');
+        function startApp() {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('main').classList.remove('hidden');
+            updateCounts();
         }
 
-        function closeModal() {
-            document.getElementById('applyModal').classList.remove('active');
-            document.getElementById('applyForm').reset();
+        function updateCounts() {
+            fetch(SCRIPT_URL).then(r => r.json()).then(counts => {
+                document.querySelectorAll('[data-key]').forEach(btn => {
+                    const key = btn.getAttribute('data-key');
+                    const left = 10 - (counts[key] || 0);
+                    btn.innerText = `${key.split('_')[1]} (남은 자리: ${left})`;
+                    if(left <= 0) { btn.disabled = true; btn.style.opacity = "0.3"; }
+                });
+            });
         }
+
+        function openForm(d, t) {
+            document.getElementById('day-val').value = d;
+            document.getElementById('time-val').value = t;
+            document.getElementById('form-title').innerText = `${d} ${t} 신청`;
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeForm() { document.getElementById('modal').classList.add('hidden'); }
 
         document.getElementById('applyForm').addEventListener('submit', e => {
             e.preventDefault();
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "제출 중";
-
-            fetch(scriptURL, { method: 'POST', body: new FormData(document.getElementById('applyForm'))})
-            .then(response => response.text())
-            .then(result => {
-                alert(result); // 서버에서 보낸 메시지(Success/마감/중복) 출력
+            document.getElementById('submitBtn').disabled = true;
+            
+            fetch(SCRIPT_URL, { method: 'POST', body: new FormData(e.target) })
+            .then(res => res.text()).then(result => {
                 if(result === "Success") {
-                    location.reload(); // 성공 시 새로고침하여 초기화
+                    location.reload(); // 성공 시 메시지 없이 새로고침 (랜딩페이지로 이동)
                 } else {
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = "신청하기";
+                    alert(result);
+                    document.getElementById('submitBtn').disabled = false;
                 }
-            })
-            .catch(error => {
-                alert('오류가 발생했습니다: ' + error.message);
-                submitBtn.disabled = false;
-                submitBtn.innerText = "신청하기";
             });
         });
     </script>
