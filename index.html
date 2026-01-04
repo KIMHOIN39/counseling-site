@@ -117,7 +117,9 @@
         function enterApp() {
             document.getElementById('landing').classList.add('hidden');
             document.getElementById('main').classList.remove('hidden');
-            checkClosed();
+            checkClosed(); // 첫 확인
+            // 1초마다 자동으로 마감 상태 실시간 체크
+            setInterval(checkClosed, 1000);
         }
 
         function checkClosed() {
@@ -129,12 +131,15 @@
                     const key = btn.getAttribute('data-key');
                     if(closedSlots[key]) {
                         btn.disabled = true;
-                        btn.innerText = "마감"; // 1명이면 즉시 마감 표시
+                        btn.innerText = "신청마감"; // "마감"에서 "신청마감"으로 변경
                     } else {
                         btn.disabled = false;
-                        btn.innerText = key.split('_')[1];
+                        btn.innerText = key.split('_')[1]; // 시간 표시 (예: 15:00)
                     }
                 });
+            })
+            .catch(err => {
+                console.error('마감 확인 실패:', err);
             });
         }
 
@@ -151,7 +156,7 @@
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerText = "처리 중..."; // 요청하신 대로 수정
+            btn.innerText = "처리 중...";
 
             fetch(SCRIPT_URL, { method: 'POST', body: new FormData(e.target) })
             .then(res => res.text()).then(result => {
@@ -162,6 +167,11 @@
                     btn.disabled = false;
                     btn.innerText = "신청하기";
                 }
+            })
+            .catch(err => {
+                alert('신청 중 오류가 발생했습니다.');
+                btn.disabled = false;
+                btn.innerText = "신청하기";
             });
         });
     </script>
