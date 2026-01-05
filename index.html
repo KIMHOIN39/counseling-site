@@ -15,6 +15,7 @@
         .font-title { font-family: 'Cinzel Decorative', cursive; }
         .btn-main { border: 4px solid var(--accent); transition: 0.2s; background: transparent; display: flex; align-items: center; justify-content: center; width: 100%; }
         .btn-main:hover { background-color: var(--accent); color: var(--main-bg) !important; }
+        /* 마감 스타일: 빨간색 테두리와 글자, 어두워지지 않음 */
         .btn-main:disabled { border-color: #ff4d4d; color: #ff4d4d !important; cursor: not-allowed; opacity: 1 !important; }
         .input-heavy { border-bottom: 5px solid var(--accent) !important; background: transparent; outline: none; border-top:0; border-left:0; border-right:0; border-radius: 0; color: white !important; }
         .hidden { display: none; }
@@ -30,6 +31,7 @@
             <p>길을 여는 자가 그들 앞에 올라가고 그들은 길을 열어 성문에 이르러서는 그리로 나갈 것이며 그들의 왕이 앞서 가며 여호와께서는 선두로 가시리라</p>
         </div>
         <button onclick="enterApp()" class="btn-main px-20 py-8 rounded-full text-3xl italic uppercase w-auto">상담 신청하기</button>
+        <div class="mt-20 text-sm tracking-[0.3em] opacity-40 font-title uppercase">Winter ☧ 2026</div>
     </div>
 
     <div id="main" class="hidden max-w-[1200px] mx-auto p-6 py-20 text-center">
@@ -45,6 +47,7 @@
                     </script>
                 </div>
             </div>
+
             <div id="saturday-section">
                 <img src="crown.png.png" alt="Saturday" class="w-32 mx-auto mb-6 opacity-80">
                 <h2 class="font-title text-5xl mb-10 border-b-4 border-white inline-block px-14 pb-2">SATURDAY</h2>
@@ -56,6 +59,7 @@
                     </script>
                 </div>
             </div>
+
             <div id="sunday-section">
                 <img src="shofar.png.png" alt="Sunday" class="w-24 mx-auto mb-6 opacity-80">
                 <h2 class="font-title text-4xl mb-10 border-b-4 border-white inline-block px-10 pb-2">SUNDAY</h2>
@@ -77,9 +81,9 @@
                 <input type="hidden" id="f-day">
                 <input type="hidden" id="f-time">
                 <input type="text" id="f-name" placeholder="이름" required minlength="2" class="input-heavy w-full p-3 text-2xl">
-                <input type="number" id="f-age" placeholder="나이" min="1" required class="input-heavy w-full p-3 text-2xl">
-                <input type="text" id="f-attic" placeholder="다락방" required class="input-heavy w-full p-3 text-2xl">
-                <input type="tel" id="f-phone" placeholder="연락처(11자리)" required pattern="[0-9]{11}" class="input-heavy w-full p-3 text-2xl">
+                <input type="number" id="f-age" placeholder="나이" min="1" max="120" required class="input-heavy w-full p-3 text-2xl">
+                <input type="text" id="f-attic" placeholder="다락방 (예: 홍길동)" required class="input-heavy w-full p-3 text-2xl">
+                <input type="tel" id="f-phone" placeholder="연락처 (숫자 11자리)" required pattern="[0-9]{11}" class="input-heavy w-full p-3 text-2xl">
                 <div class="flex gap-12 justify-center py-4 text-2xl">
                     <label class="flex items-center gap-3"><input type="radio" name="gender" value="남자" required class="w-8 h-8"> 남자</label>
                     <label class="flex items-center gap-3"><input type="radio" name="gender" value="여자" class="w-8 h-8"> 여자</label>
@@ -105,6 +109,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // 1. 실시간 마감 감시
         db.collection("appointments").onSnapshot((snapshot) => {
             const closedSlots = {};
             snapshot.forEach((doc) => {
@@ -116,7 +121,7 @@
                 const timeOnly = key.split('_')[1];
                 if(closedSlots[key]) {
                     btn.disabled = true;
-                    btn.innerText = `${timeOnly} (마감)`;
+                    btn.innerText = `${timeOnly} (신청 마감)`;
                 } else {
                     btn.disabled = false;
                     btn.innerText = timeOnly;
@@ -124,10 +129,21 @@
             });
         });
 
+        // 2. 화면 전환 및 모달 제어
         function enterApp() { document.getElementById('landing').classList.add('hidden'); document.getElementById('main').classList.remove('hidden'); window.scrollTo(0,0); }
-        function openForm(d, t) { document.getElementById('f-day').value = d; document.getElementById('f-time').value = t; document.getElementById('modal-title').innerText = `${d} ${t}`; document.getElementById('modal').classList.remove('hidden'); }
-        function closeForm() { document.getElementById('modal').classList.add('hidden'); }
+        function openForm(d, t) { 
+            document.getElementById('f-day').value = d; 
+            document.getElementById('f-time').value = t; 
+            document.getElementById('modal-title').innerText = `${d} ${t}`; 
+            document.getElementById('modal').classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden';
+        }
+        function closeForm() { 
+            document.getElementById('modal').classList.add('hidden'); 
+            document.body.style.overflow = 'auto';
+        }
 
+        // 3. 신청 제출 (중복 체크 포함)
         document.getElementById('applyForm').addEventListener('submit', async e => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -137,7 +153,7 @@
 
             try {
                 const q = await db.collection("appointments").where("day", "==", day).where("time", "==", time).get();
-                if (!q.empty) { alert("이미 마감되었습니다."); btn.disabled = false; return; }
+                if (!q.empty) { alert("그 사이에 마감되었습니다!"); btn.disabled = false; return; }
 
                 await db.collection("appointments").add({
                     day: day, time: time,
@@ -148,7 +164,7 @@
                     gender: document.querySelector('input[name="gender"]:checked').value,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                alert("완료되었습니다!");
+                alert("신청이 완료되었습니다!");
                 closeForm();
             } catch (err) { alert("오류: " + err.message); }
             finally { btn.disabled = false; btn.innerText = "신청하기"; }
