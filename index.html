@@ -132,7 +132,7 @@
             document.getElementById('landing').classList.add('hidden');
             document.getElementById('main').classList.remove('hidden');
             checkClosed(); // 입장 즉시 반영
-            setInterval(checkClosed, 1); // 2초마다 실시간 확인
+            setInterval(checkClosed, 100); // 2초마다 실시간 확인
         }
 
         function checkClosed() {
@@ -183,3 +183,4 @@
     </script>
 </body>
 </html>
+
