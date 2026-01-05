@@ -10,21 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-bg: #363b3f; --accent: #ffffff; }
+        /* 모든 폰트 명조체 통일 및 가독성 조절 */
         * { font-family: 'Noto Serif KR', serif !important; letter-spacing: -0.02em; box-sizing: border-box; }
         body { background-color: var(--main-bg); overflow-x: hidden; color: var(--accent); margin: 0; }
         .font-title { font-family: 'Cinzel Decorative', cursive !important; }
         
-        /* 로고: 글씨와 조화를 이루는 '황금 비율' 사이즈 */
+        /* 로고: 텍스트와 조화를 이루는 최적의 사이즈 */
         .balanced-logo { 
-            width: 220px; /* 모바일: 글씨 폭에 맞춤 */
+            width: 200px; /* 모바일 */
             height: auto; 
             margin-bottom: 2rem; 
             opacity: 0.95; 
         }
-        @media (min-width: 768px) { 
-            .balanced-logo { width: 420px; } /* PC: 글씨 폭과 조화로운 크기 */
-        }
+        @media (min-width: 768px) { .balanced-logo { width: 400px; } } /* PC */
 
+        /* 버튼 디자인 */
         .btn-main { 
             border: 2px solid var(--accent); transition: 0.2s; background: transparent; 
             display: flex; align-items: center; justify-content: center; 
@@ -34,10 +34,12 @@
         .btn-main:hover { background-color: var(--accent); color: var(--main-bg) !important; }
         .btn-main:disabled { border-color: #ff4d4d; color: #ff4d4d !important; cursor: not-allowed; opacity: 1 !important; }
         
+        /* 입력창: 자동 띄어쓰기 현상 방지 */
         .input-heavy { 
             border-bottom: 2px solid var(--accent) !important; background: transparent; outline: none; 
             border-top:0; border-left:0; border-right:0; border-radius: 0; 
-            color: white !important; font-size: 1.1rem; padding: 0.8rem 0; width: 100%; letter-spacing: normal !important;
+            color: white !important; font-size: 1.1rem; padding: 0.8rem 0; width: 100%; 
+            letter-spacing: normal !important;
         }
         .hidden { display: none; }
         #modal-title { font-weight: 900 !important; font-size: 1.4rem; margin-bottom: 2rem; display: block; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.8rem; }
@@ -56,7 +58,7 @@
     </div>
 
     <div id="main" class="hidden max-w-[1200px] mx-auto p-4 py-12 text-center">
-        <div class="flex flex-col gap-20">
+        <div class="flex flex-col gap-16">
             <div>
                 <h2 class="font-title text-2xl md:text-3xl mb-8 border-b-2 border-white inline-block px-8 pb-1 font-black">FRIDAY</h2>
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 md:gap-4">
@@ -125,6 +127,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // 실시간 마감 상태 업데이트
         db.collection("appointments").onSnapshot((snapshot) => {
             const closedSlots = {};
             snapshot.forEach((doc) => {
@@ -157,11 +160,16 @@
             document.body.style.overflow = 'auto';
         }
 
+        // 신청 제출 로직 (다락방 중복 방지 포함)
         document.getElementById('applyForm').addEventListener('submit', async e => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const day = document.getElementById('f-day').value;
             const time = document.getElementById('f-time').value;
+            
+            let atticValue = document.getElementById('f-attic').value.trim();
+            if (!atticValue.endsWith("다락방")) { atticValue += " 다락방"; }
+
             btn.disabled = true; btn.innerText = "처리 중...";
 
             try {
@@ -172,11 +180,13 @@
                     day: day, time: time,
                     name: document.getElementById('f-name').value,
                     age: document.getElementById('f-age').value,
-                    attic: document.getElementById('f-attic').value + " 다락방",
+                    attic: atticValue,
                     phone: document.getElementById('f-phone').value,
                     gender: document.querySelector('input[name="gender"]:checked').value,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                
+                // 알림창(alert) 없이 즉시 종료
                 closeForm();
                 document.getElementById('applyForm').reset();
             } catch (err) { console.error(err); }
