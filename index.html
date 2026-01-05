@@ -10,13 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@300;600&display=swap" rel="stylesheet">
     <style>
         :root { --main-bg: #363b3f; --accent: #ffffff; }
-        /* 기본 폰트는 명조체로 통일 */
         body { background-color: var(--main-bg); font-family: 'Noto Serif KR', serif; overflow-x: hidden; color: var(--accent); }
-        
-        /* 제목용 장식 폰트 */
         .font-title { font-family: 'Cinzel Decorative', cursive; }
         
-        /* 버튼 스타일 수정: 글자 줄바꿈 방지(white-space: nowrap) 추가 */
+        /* 버튼: 절대 줄바꿈 금지 및 큼직한 폰트 */
         .btn-main { 
             border: 4px solid var(--accent); 
             transition: 0.2s; 
@@ -25,72 +22,74 @@
             align-items: center; 
             justify-content: center; 
             width: 100%; 
-            white-space: nowrap; /* 핵심 수정: 한 줄 유지 */
+            white-space: nowrap; /* 글자 한 줄 고정 */
             font-weight: 900;
-            letter-spacing: -0.5px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
         }
         .btn-main:hover { background-color: var(--accent); color: var(--main-bg) !important; }
         .btn-main:disabled { border-color: #ff4d4d; color: #ff4d4d !important; cursor: not-allowed; opacity: 1 !important; }
         
-        /* 입력창 스타일 수정: 폰트 통일 및 디자인 강화 */
+        /* 입력창: 폰트 통일 및 간격 확대 */
         .input-heavy { 
             border-bottom: 4px solid var(--accent) !important; 
             background: transparent; 
             outline: none; 
             border-top:0; border-left:0; border-right:0; border-radius: 0; 
             color: white !important; 
-            font-family: 'Noto Serif KR', serif; /* 폰트 통일 */
-            font-weight: 600;
+            font-family: 'Noto Serif KR', serif; 
+            font-size: 1.5rem;
+            padding: 1.5rem 0.5rem;
         }
         .hidden { display: none; }
-        input::placeholder { color: #aaaaaa !important; font-weight: 300; }
     </style>
 </head>
 <body>
 
     <div id="landing" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
-        <img src="crest.png.png" alt="Main Crest" class="w-48 md:w-64 mb-10 opacity-90">
-        <h1 class="font-title text-4xl md:text-6xl mb-2 tracking-widest font-black">YAHWEH <span class="italic text-2xl">the</span></h1>
-        <h2 class="font-title text-5xl md:text-8xl mb-12 uppercase tracking-widest font-black">Haporets</h2>
-        <div class="max-w-2xl mb-12 space-y-6 opacity-90 font-light leading-relaxed text-lg">
+        <img src="crest.png.png" alt="Main Crest" class="w-64 md:w-96 mb-12 opacity-95">
+        <h1 class="font-title text-5xl md:text-7xl mb-4 tracking-widest font-black">YAHWEH <span class="italic text-3xl">the</span></h1>
+        <h2 class="font-title text-6xl md:text-9xl mb-14 uppercase tracking-tighter font-black">Haporets</h2>
+        <div class="max-w-3xl mb-14 space-y-8 opacity-90 font-light leading-relaxed text-xl md:text-2xl">
             <p>길을 여는 자가 그들 앞에 올라가고 그들은 길을 열어 성문에 이르러서는 그리로 나갈 것이며 그들의 왕이 앞서 가며 여호와께서는 선두로 가시리라</p>
         </div>
-        <button onclick="enterApp()" class="btn-main px-20 py-8 rounded-full text-3xl italic uppercase w-auto">상담 신청하기</button>
-        <div class="mt-20 text-sm tracking-[0.3em] opacity-40 font-title uppercase">Winter ☧ 2026</div>
+        <button onclick="enterApp()" class="btn-main px-24 py-10 rounded-full text-4xl italic uppercase w-auto">상담 신청하기</button>
+        <div class="mt-24 text-base tracking-[0.5em] opacity-40 font-title uppercase">Winter ☧ 2026</div>
     </div>
 
-    <div id="main" class="hidden max-w-[1200px] mx-auto p-6 py-20 text-center">
-        <div class="flex flex-col gap-28"> <div id="friday-section">
-                <img src="ark.png.png" alt="Friday" class="w-32 md:w-40 mx-auto mb-8 opacity-90">
-                <h2 class="font-title text-4xl mb-10 border-b-4 border-white inline-block px-10 pb-2 font-black">FRIDAY</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
+    <div id="main" class="hidden max-w-[1400px] mx-auto p-6 py-32 text-center">
+        <div class="flex flex-col gap-40"> 
+            <div id="friday-section">
+                <img src="ark.png.png" alt="Friday" class="w-48 md:w-64 mx-auto mb-12 opacity-95">
+                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black tracking-widest">FRIDAY</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-6">
                     <script>
                         ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-4 rounded-xl text-xl" data-key="금요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-5 rounded-2xl text-2xl" data-key="금요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
             </div>
 
             <div id="saturday-section">
-                 <img src="crown.png.png" alt="Saturday" class="w-40 md:w-48 mx-auto mb-8 opacity-90">
-                <h2 class="font-title text-5xl mb-10 border-b-4 border-white inline-block px-14 pb-2 font-black">SATURDAY</h2>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                <img src="crown.png.png" alt="Saturday" class="w-56 md:w-72 mx-auto mb-12 opacity-95">
+                <h2 class="font-title text-6xl mb-14 border-b-4 border-white inline-block px-16 pb-4 font-black tracking-widest">SATURDAY</h2>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6">
                     <script>
                         ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-5 rounded-2xl text-xl" data-key="토요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-6 rounded-3xl text-2xl" data-key="토요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
             </div>
 
             <div id="sunday-section">
-                 <img src="shofar.png.png" alt="Sunday" class="w-32 md:w-40 mx-auto mb-8 opacity-90">
-                <h2 class="font-title text-4xl mb-10 border-b-4 border-white inline-block px-10 pb-2 font-black">SUNDAY</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                <img src="shofar.png.png" alt="Sunday" class="w-48 md:w-64 mx-auto mb-12 opacity-95">
+                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black tracking-widest">SUNDAY</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
                     <script>
                         ['10:00','10:30','11:00','11:30'].forEach(t => {
-                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-4 rounded-xl text-xl" data-key="일요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-5 rounded-2xl text-2xl" data-key="일요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
@@ -98,33 +97,32 @@
         </div>
     </div>
 
-    <div id="modal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 z-50">
-        <div class="bg-[#363b3f] p-10 md:p-14 rounded-[40px] w-full max-w-xl border-[4px] border-white text-center shadow-2xl">
-            <h2 id="modal-title" class="font-title text-3xl mb-12 italic border-b-2 border-white pb-4 inline-block font-black"></h2>
+    <div id="modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 z-50">
+        <div class="bg-[#363b3f] p-12 md:p-20 rounded-[60px] w-full max-w-2xl border-[6px] border-white text-center shadow-2xl">
+            <h2 id="modal-title" class="font-title text-4xl mb-16 italic border-b-2 border-white pb-6 inline-block font-black"></h2>
             
-            <form id="applyForm" class="space-y-12 text-left">
+            <form id="applyForm" class="space-y-16 text-left">
                 <input type="hidden" id="f-day">
                 <input type="hidden" id="f-time">
-                <input type="text" id="f-name" placeholder="이름 (Name)" required minlength="2" class="input-heavy w-full p-4 text-xl">
-                <input type="number" id="f-age" placeholder="나이 (Age)" min="1" max="120" required class="input-heavy w-full p-4 text-xl">
-                <input type="text" id="f-attic" placeholder="다락방 (Darakbang)" required class="input-heavy w-full p-4 text-xl">
-                <input type="tel" id="f-phone" placeholder="연락처 (숫자 11자리)" required pattern="[0-9]{11}" class="input-heavy w-full p-4 text-xl">
+                <input type="text" id="f-name" placeholder="이름 (Name)" required minlength="2" class="input-heavy w-full">
+                <input type="number" id="f-age" placeholder="나이 (Age)" min="1" max="120" required class="input-heavy w-full">
+                <input type="text" id="f-attic" placeholder="다락방 (Darakbang)" required class="input-heavy w-full">
+                <input type="tel" id="f-phone" placeholder="연락처 (01012345678)" required pattern="[0-9]{11}" class="input-heavy w-full">
                 
-                <div class="flex gap-16 justify-center py-6 text-2xl font-bold">
-                    <label class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition"><input type="radio" name="gender" value="남자" required class="w-8 h-8 accent-white"> 남자</label>
-                    <label class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition"><input type="radio" name="gender" value="여자" class="w-8 h-8 accent-white"> 여자</label>
+                <div class="flex gap-20 justify-center py-8 text-3xl font-bold">
+                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-10 h-10 accent-white"> 남자</label>
+                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-10 h-10 accent-white"> 여자</label>
                 </div>
                 
-                <div class="flex gap-6 pt-6">
-                    <button type="button" onclick="closeForm()" class="flex-1 py-5 border-[3px] border-white rounded-2xl text-2xl font-black hover:bg-white/10 transition">취소</button>
-                    <button type="submit" id="submitBtn" class="flex-1 py-5 bg-white text-[#363b3f] rounded-2xl text-2xl font-black hover:bg-gray-200 transition">신청하기</button>
+                <div class="flex gap-8 pt-10">
+                    <button type="button" onclick="closeForm()" class="flex-1 py-6 border-[4px] border-white rounded-3xl text-3xl font-black">취소</button>
+                    <button type="submit" id="submitBtn" class="flex-1 py-6 bg-white text-[#363b3f] rounded-3xl text-3xl font-black">신청하기</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // 호인님의 파이어베이스 설정 (그대로 유지)
         const firebaseConfig = {
             apiKey: "AIzaSyBa66Q5Ap0btmupxISOQfNsV8y5JUQAG2o",
             authDomain: "kimhoin.firebaseapp.com",
@@ -148,8 +146,7 @@
                 const timeOnly = key.split('_')[1];
                 if(closedSlots[key]) {
                     btn.disabled = true;
-                    // 마감 표시도 한 줄로 나오게 처리
-                    btn.innerHTML = `<span style="white-space: nowrap;">${timeOnly} (마감)</span>`;
+                    btn.innerHTML = `<span style="white-space: nowrap;">${timeOnly} (신청 마감)</span>`;
                 } else {
                     btn.disabled = false;
                     btn.innerText = timeOnly;
@@ -158,18 +155,16 @@
         });
 
         function enterApp() { document.getElementById('landing').classList.add('hidden'); document.getElementById('main').classList.remove('hidden'); window.scrollTo(0,0); }
-        
-        // 모달 열기/닫기 시 스크롤 제어 추가
         function openForm(d, t) { 
             document.getElementById('f-day').value = d; 
             document.getElementById('f-time').value = t; 
             document.getElementById('modal-title').innerText = `${d} ${t}`; 
             document.getElementById('modal').classList.remove('hidden'); 
-            document.body.style.overflow = 'hidden'; // 배경 스크롤 막기
+            document.body.style.overflow = 'hidden';
         }
         function closeForm() { 
             document.getElementById('modal').classList.add('hidden'); 
-            document.body.style.overflow = 'auto'; // 배경 스크롤 풀기
+            document.body.style.overflow = 'auto';
         }
 
         document.getElementById('applyForm').addEventListener('submit', async e => {
