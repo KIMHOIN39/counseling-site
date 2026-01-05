@@ -15,21 +15,18 @@
         
         .font-title { font-family: 'Cinzel Decorative', cursive !important; }
         
-        /* --- 로고 사이즈 통일 설정 --- */
-        .unified-logo { 
-            width: 140px; /* 모바일 사이즈 */
+        /* 메인 로고 초대형화: 글씨 폭에 맞춤 */
+        .massive-logo { 
+            width: 320px; /* 모바일 사이즈 */
             height: auto; 
-            margin-bottom: 1.5rem; 
+            margin-bottom: 2rem; 
             opacity: 0.95; 
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
         }
         @media (min-width: 768px) { 
-            .unified-logo { width: 200px; } /* PC 사이즈 */
+            .massive-logo { width: 650px; } /* PC 사이즈: 아주 크게 */
         }
 
-        /* 버튼 디자인 (깔끔한 버전) */
+        /* 버튼 디자인 */
         .btn-main { 
             border: 2px solid var(--accent); 
             transition: 0.2s; 
@@ -64,7 +61,7 @@
 <body>
 
     <div id="landing" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
-        <img src="crest.png.png" alt="Main Crest" class="unified-logo">
+        <img src="crest.png.png" alt="Main Crest" class="massive-logo">
         <h1 class="font-title text-3xl md:text-5xl mb-2 tracking-widest font-black">YAHWEH <span class="italic text-xl">the</span></h1>
         <h2 class="font-title text-4xl md:text-7xl mb-6 uppercase tracking-widest font-black">Haporets</h2>
         <div class="max-w-xl mb-10 space-y-4 opacity-90 font-light leading-relaxed text-base md:text-lg">
@@ -73,11 +70,9 @@
         <button onclick="enterApp()" class="btn-main px-12 py-4 rounded-full text-xl md:text-2xl italic uppercase w-auto">상담 신청하기</button>
     </div>
 
-    <div id="main" class="hidden max-w-[1200px] mx-auto p-4 py-8 text-center">
-        <div class="flex flex-col gap-12"> 
-            <div>
-                <img src="ark.png.png" alt="Friday" class="unified-logo">
-                <h2 class="font-title text-2xl md:text-3xl mb-6 border-b-2 border-white inline-block px-8 pb-1 font-black">FRIDAY</h2>
+    <div id="main" class="hidden max-w-[1200px] mx-auto p-4 py-12 text-center">
+        <div class="flex flex-col gap-20"> <div>
+                <h2 class="font-title text-2xl md:text-3xl mb-8 border-b-2 border-white inline-block px-8 pb-1 font-black">FRIDAY</h2>
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2 md:gap-4">
                     <script>
                         ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
@@ -87,8 +82,7 @@
                 </div>
             </div>
             <div>
-                <img src="crown.png.png" alt="Saturday" class="unified-logo">
-                <h2 class="font-title text-3xl md:text-4xl mb-6 border-b-2 border-white inline-block px-10 pb-1 font-black">SATURDAY</h2>
+                <h2 class="font-title text-3xl md:text-4xl mb-8 border-b-2 border-white inline-block px-10 pb-1 font-black">SATURDAY</h2>
                 <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-4">
                     <script>
                         ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
@@ -98,8 +92,7 @@
                 </div>
             </div>
             <div>
-                <img src="shofar.png.png" alt="Sunday" class="unified-logo">
-                <h2 class="font-title text-2xl md:text-3xl mb-6 border-b-2 border-white inline-block px-8 pb-1 font-black">SUNDAY</h2>
+                <h2 class="font-title text-2xl md:text-3xl mb-8 border-b-2 border-white inline-block px-8 pb-1 font-black">SUNDAY</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-4 max-w-2xl mx-auto">
                     <script>
                         ['10:00','10:30','11:00','11:30'].forEach(t => {
@@ -134,7 +127,7 @@
     </div>
 
     <script>
-        // 파이어베이스 설정 (기존 것 유지)
+        // 파이어베이스 설정 유지
         const firebaseConfig = {
             apiKey: "AIzaSyBa66Q5Ap0btmupxISOQfNsV8y5JUQAG2o",
             authDomain: "kimhoin.firebaseapp.com",
