@@ -7,13 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-bg: #363b3f; --accent: #ffffff; }
-        body { background-color: var(--main-bg); font-family: 'Noto Serif KR', serif; overflow-x: hidden; color: var(--accent); }
-        .font-title { font-family: 'Cinzel Decorative', cursive; }
+        /* 전체 폰트를 명조체로 강제 통일 */
+        * { font-family: 'Noto Serif KR', serif !important; letter-spacing: -0.5px; }
+        body { background-color: var(--main-bg); overflow-x: hidden; color: var(--accent); }
         
-        /* 버튼: 절대 줄바꿈 금지 및 큼직한 폰트 */
+        .font-title { font-family: 'Cinzel Decorative', cursive !important; }
+        
+        /* 버튼: 한 줄 유지 및 폰트 강조 */
         .btn-main { 
             border: 4px solid var(--accent); 
             transition: 0.2s; 
@@ -21,47 +24,52 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            width: 100%; 
-            white-space: nowrap; /* 글자 한 줄 고정 */
+            white-space: nowrap; 
             font-weight: 900;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
         }
         .btn-main:hover { background-color: var(--accent); color: var(--main-bg) !important; }
         .btn-main:disabled { border-color: #ff4d4d; color: #ff4d4d !important; cursor: not-allowed; opacity: 1 !important; }
         
-        /* 입력창: 폰트 통일 및 간격 확대 */
+        /* 입력창: 간격 넓히고 폰트 통일 */
         .input-heavy { 
             border-bottom: 4px solid var(--accent) !important; 
             background: transparent; 
             outline: none; 
             border-top:0; border-left:0; border-right:0; border-radius: 0; 
             color: white !important; 
-            font-family: 'Noto Serif KR', serif; 
-            font-size: 1.5rem;
-            padding: 1.5rem 0.5rem;
+            font-size: 1.6rem;
+            padding: 1.8rem 0.5rem;
+            width: 100%;
         }
         .hidden { display: none; }
+        
+        /* 모달 제목 특화 스타일 */
+        #modal-title { 
+            font-weight: 900 !important; 
+            letter-spacing: 0.5rem !important; /* 글자 사이 간격 넓힘 */
+            word-spacing: 1.5rem !important; /* 요일과 시간 사이 간격 넓힘 */
+            display: block;
+            margin-bottom: 3rem;
+        }
     </style>
 </head>
 <body>
 
     <div id="landing" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
-        <img src="crest.png.png" alt="Main Crest" class="w-64 md:w-96 mb-12 opacity-95">
+        <img src="crest.png.png" alt="Main Crest" class="w-[350px] md:w-[500px] mb-12 opacity-95">
         <h1 class="font-title text-5xl md:text-7xl mb-4 tracking-widest font-black">YAHWEH <span class="italic text-3xl">the</span></h1>
         <h2 class="font-title text-6xl md:text-9xl mb-14 uppercase tracking-tighter font-black">Haporets</h2>
         <div class="max-w-3xl mb-14 space-y-8 opacity-90 font-light leading-relaxed text-xl md:text-2xl">
             <p>길을 여는 자가 그들 앞에 올라가고 그들은 길을 열어 성문에 이르러서는 그리로 나갈 것이며 그들의 왕이 앞서 가며 여호와께서는 선두로 가시리라</p>
         </div>
         <button onclick="enterApp()" class="btn-main px-24 py-10 rounded-full text-4xl italic uppercase w-auto">상담 신청하기</button>
-        <div class="mt-24 text-base tracking-[0.5em] opacity-40 font-title uppercase">Winter ☧ 2026</div>
     </div>
 
     <div id="main" class="hidden max-w-[1400px] mx-auto p-6 py-32 text-center">
-        <div class="flex flex-col gap-40"> 
-            <div id="friday-section">
-                <img src="ark.png.png" alt="Friday" class="w-48 md:w-64 mx-auto mb-12 opacity-95">
-                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black tracking-widest">FRIDAY</h2>
+        <div class="flex flex-col gap-48"> 
+            <div>
+                <img src="ark.png.png" alt="Friday" class="w-[280px] md:w-[400px] mx-auto mb-14 opacity-95">
+                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black">FRIDAY</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-6">
                     <script>
                         ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
@@ -71,9 +79,9 @@
                 </div>
             </div>
 
-            <div id="saturday-section">
-                <img src="crown.png.png" alt="Saturday" class="w-56 md:w-72 mx-auto mb-12 opacity-95">
-                <h2 class="font-title text-6xl mb-14 border-b-4 border-white inline-block px-16 pb-4 font-black tracking-widest">SATURDAY</h2>
+            <div>
+                <img src="crown.png.png" alt="Saturday" class="w-[320px] md:w-[450px] mx-auto mb-14 opacity-95">
+                <h2 class="font-title text-6xl mb-14 border-b-4 border-white inline-block px-16 pb-4 font-black">SATURDAY</h2>
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6">
                     <script>
                         ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
@@ -83,9 +91,9 @@
                 </div>
             </div>
 
-            <div id="sunday-section">
-                <img src="shofar.png.png" alt="Sunday" class="w-48 md:w-64 mx-auto mb-12 opacity-95">
-                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black tracking-widest">SUNDAY</h2>
+            <div>
+                <img src="shofar.png.png" alt="Sunday" class="w-[280px] md:w-[400px] mx-auto mb-14 opacity-95">
+                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black">SUNDAY</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
                     <script>
                         ['10:00','10:30','11:00','11:30'].forEach(t => {
@@ -98,25 +106,25 @@
     </div>
 
     <div id="modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 z-50">
-        <div class="bg-[#363b3f] p-12 md:p-20 rounded-[60px] w-full max-w-2xl border-[6px] border-white text-center shadow-2xl">
-            <h2 id="modal-title" class="font-title text-4xl mb-16 italic border-b-2 border-white pb-6 inline-block font-black"></h2>
+        <div class="bg-[#363b3f] p-12 md:p-20 rounded-[60px] w-full max-w-3xl border-[6px] border-white text-center shadow-2xl">
+            <h2 id="modal-title" class="text-4xl md:text-5xl font-black"></h2>
             
             <form id="applyForm" class="space-y-16 text-left">
                 <input type="hidden" id="f-day">
                 <input type="hidden" id="f-time">
-                <input type="text" id="f-name" placeholder="이름 (Name)" required minlength="2" class="input-heavy w-full">
-                <input type="number" id="f-age" placeholder="나이 (Age)" min="1" max="120" required class="input-heavy w-full">
-                <input type="text" id="f-attic" placeholder="다락방 (Darakbang)" required class="input-heavy w-full">
-                <input type="tel" id="f-phone" placeholder="연락처 (01012345678)" required pattern="[0-9]{11}" class="input-heavy w-full">
+                <input type="text" id="f-name" placeholder="이름 (Name)" required minlength="2" class="input-heavy">
+                <input type="number" id="f-age" placeholder="나이 (Age)" min="1" max="120" required class="input-heavy">
+                <input type="text" id="f-attic" placeholder="다락방 (Darakbang)" required class="input-heavy">
+                <input type="tel" id="f-phone" placeholder="연락처 (01012345678)" required pattern="[0-9]{11}" class="input-heavy">
                 
-                <div class="flex gap-20 justify-center py-8 text-3xl font-bold">
-                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-10 h-10 accent-white"> 남자</label>
-                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-10 h-10 accent-white"> 여자</label>
+                <div class="flex gap-20 justify-center py-10 text-3xl font-bold">
+                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-12 h-12 accent-white"> 남자</label>
+                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-12 h-12 accent-white"> 여자</label>
                 </div>
                 
-                <div class="flex gap-8 pt-10">
-                    <button type="button" onclick="closeForm()" class="flex-1 py-6 border-[4px] border-white rounded-3xl text-3xl font-black">취소</button>
-                    <button type="submit" id="submitBtn" class="flex-1 py-6 bg-white text-[#363b3f] rounded-3xl text-3xl font-black">신청하기</button>
+                <div class="flex gap-10 pt-10">
+                    <button type="button" onclick="closeForm()" class="flex-1 py-8 border-[4px] border-white rounded-3xl text-4xl font-black">취소</button>
+                    <button type="submit" id="submitBtn" class="flex-1 py-8 bg-white text-[#363b3f] rounded-3xl text-4xl font-black">신청하기</button>
                 </div>
             </form>
         </div>
@@ -146,7 +154,7 @@
                 const timeOnly = key.split('_')[1];
                 if(closedSlots[key]) {
                     btn.disabled = true;
-                    btn.innerHTML = `<span style="white-space: nowrap;">${timeOnly} (신청 마감)</span>`;
+                    btn.innerHTML = `<span>${timeOnly} (마감)</span>`;
                 } else {
                     btn.disabled = false;
                     btn.innerText = timeOnly;
@@ -172,7 +180,7 @@
             const btn = document.getElementById('submitBtn');
             const day = document.getElementById('f-day').value;
             const time = document.getElementById('f-time').value;
-            btn.disabled = true; btn.innerText = "처리 중...";
+            btn.disabled = true; btn.innerText = "Processing...";
 
             try {
                 const q = await db.collection("appointments").where("day", "==", day).where("time", "==", time).get();
@@ -187,10 +195,11 @@
                     gender: document.querySelector('input[name="gender"]:checked').value,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                alert("신청이 완료되었습니다!");
+                
+                // 알림창(alert) 없이 즉시 폼 닫기
                 closeForm();
                 document.getElementById('applyForm').reset();
-            } catch (err) { alert("오류: " + err.message); }
+            } catch (err) { console.error(err); }
             finally { btn.disabled = false; btn.innerText = "신청하기"; }
         });
     </script>
