@@ -10,94 +10,95 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Noto+Serif+KR:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-bg: #363b3f; --accent: #ffffff; }
-        /* 전체 폰트를 명조체로 강제 통일 */
+        /* 모든 폰트를 명조체로 통일, 답답하지 않게 자간 조절 */
         * { font-family: 'Noto Serif KR', serif !important; letter-spacing: -0.5px; }
         body { background-color: var(--main-bg); overflow-x: hidden; color: var(--accent); }
         
         .font-title { font-family: 'Cinzel Decorative', cursive !important; }
         
-        /* 버튼: 한 줄 유지 및 폰트 강조 */
+        /* 로고: 공간만 차지하지 않고 실제 크기를 큼직하게 고정 */
+        .big-logo { width: 350px !important; max-width: 90% !important; margin-bottom: 3rem; }
+        @media (min-width: 768px) { .big-logo { width: 550px !important; } }
+        
+        .day-logo { width: 280px !important; margin-bottom: 2rem; }
+        @media (min-width: 768px) { .day-logo { width: 450px !important; } }
+
+        /* 버튼: 절대 줄바꿈 금지 (nowrap) */
         .btn-main { 
             border: 4px solid var(--accent); 
             transition: 0.2s; 
             background: transparent; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            white-space: nowrap; 
+            display: flex; align-items: center; justify-content: center; 
+            white-space: nowrap !important; /* 한 줄 고정 */
             font-weight: 900;
         }
         .btn-main:hover { background-color: var(--accent); color: var(--main-bg) !important; }
         .btn-main:disabled { border-color: #ff4d4d; color: #ff4d4d !important; cursor: not-allowed; opacity: 1 !important; }
         
-        /* 입력창: 간격 넓히고 폰트 통일 */
+        /* 입력창: 폰트 크기 및 간격 대폭 확대 */
         .input-heavy { 
-            border-bottom: 4px solid var(--accent) !important; 
-            background: transparent; 
-            outline: none; 
-            border-top:0; border-left:0; border-right:0; border-radius: 0; 
-            color: white !important; 
-            font-size: 1.6rem;
-            padding: 1.8rem 0.5rem;
-            width: 100%;
+            border-bottom: 5px solid var(--accent) !important; 
+            background: transparent; outline: none; border-top:0; border-left:0; border-right:0; border-radius: 0; 
+            color: white !important; font-size: 1.8rem; padding: 2rem 0.5rem; width: 100%;
         }
         .hidden { display: none; }
         
-        /* 모달 제목 특화 스타일 */
+        /* 모달 제목: 폰트 일치시키고 간격 대폭 확보 */
         #modal-title { 
+            font-family: 'Noto Serif KR', serif !important;
             font-weight: 900 !important; 
-            letter-spacing: 0.5rem !important; /* 글자 사이 간격 넓힘 */
-            word-spacing: 1.5rem !important; /* 요일과 시간 사이 간격 넓힘 */
+            font-size: 3rem;
+            letter-spacing: 0.3rem !important; 
+            margin-bottom: 4rem;
             display: block;
-            margin-bottom: 3rem;
         }
     </style>
 </head>
 <body>
 
     <div id="landing" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
-        <img src="crest.png.png" alt="Main Crest" class="w-[350px] md:w-[500px] mb-12 opacity-95">
+        <img src="crest.png.png" alt="Main Crest" class="big-logo opacity-95">
         <h1 class="font-title text-5xl md:text-7xl mb-4 tracking-widest font-black">YAHWEH <span class="italic text-3xl">the</span></h1>
         <h2 class="font-title text-6xl md:text-9xl mb-14 uppercase tracking-tighter font-black">Haporets</h2>
-        <div class="max-w-3xl mb-14 space-y-8 opacity-90 font-light leading-relaxed text-xl md:text-2xl">
+        <div class="max-w-3xl mb-14 space-y-8 opacity-90 font-light leading-relaxed text-xl md:text-3xl">
             <p>길을 여는 자가 그들 앞에 올라가고 그들은 길을 열어 성문에 이르러서는 그리로 나갈 것이며 그들의 왕이 앞서 가며 여호와께서는 선두로 가시리라</p>
         </div>
         <button onclick="enterApp()" class="btn-main px-24 py-10 rounded-full text-4xl italic uppercase w-auto">상담 신청하기</button>
     </div>
 
-    <div id="main" class="hidden max-w-[1400px] mx-auto p-6 py-32 text-center">
-        <div class="flex flex-col gap-48"> 
+    <div id="main" class="hidden max-w-[1500px] mx-auto p-6 py-40 text-center">
+        <div class="flex flex-col gap-60"> 
             <div>
-                <img src="ark.png.png" alt="Friday" class="w-[280px] md:w-[400px] mx-auto mb-14 opacity-95">
-                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black">FRIDAY</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-6">
+                <img src="ark.png.png" alt="Friday" class="day-logo mx-auto opacity-95">
+                <h2 class="font-title text-6xl mb-16 border-b-4 border-white inline-block px-14 pb-4 font-black">FRIDAY</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-8">
                     <script>
                         ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-5 rounded-2xl text-2xl" data-key="금요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-main py-6 rounded-2xl text-2xl" data-key="금요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
             </div>
 
             <div>
-                <img src="crown.png.png" alt="Saturday" class="w-[320px] md:w-[450px] mx-auto mb-14 opacity-95">
-                <h2 class="font-title text-6xl mb-14 border-b-4 border-white inline-block px-16 pb-4 font-black">SATURDAY</h2>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6">
+                <img src="crown.png.png" alt="Saturday" class="day-logo mx-auto opacity-95" style="width: 500px !important;">
+                <h2 class="font-title text-7xl mb-20 border-b-4 border-white inline-block px-20 pb-4 font-black">SATURDAY</h2>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8">
                     <script>
                         ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
-                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-6 rounded-3xl text-2xl" data-key="토요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-main py-8 rounded-3xl text-3xl" data-key="토요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
             </div>
 
             <div>
-                <img src="shofar.png.png" alt="Sunday" class="w-[280px] md:w-[400px] mx-auto mb-14 opacity-95">
-                <h2 class="font-title text-5xl mb-12 border-b-4 border-white inline-block px-12 pb-4 font-black">SUNDAY</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
+                <img src="shofar.png.png" alt="Sunday" class="day-logo mx-auto opacity-95">
+                <h2 class="font-title text-6xl mb-16 border-b-4 border-white inline-block px-14 pb-4 font-black">SUNDAY</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-4xl mx-auto">
                     <script>
                         ['10:00','10:30','11:00','11:30'].forEach(t => {
-                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-5 rounded-2xl text-2xl" data-key="일요일_${t}">${t}</button>`);
+                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-main py-6 rounded-2xl text-2xl" data-key="일요일_${t}">${t}</button>`);
                         });
                     </script>
                 </div>
@@ -105,11 +106,11 @@
         </div>
     </div>
 
-    <div id="modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 z-50">
-        <div class="bg-[#363b3f] p-12 md:p-20 rounded-[60px] w-full max-w-3xl border-[6px] border-white text-center shadow-2xl">
-            <h2 id="modal-title" class="text-4xl md:text-5xl font-black"></h2>
+    <div id="modal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-3xl flex items-center justify-center p-4 z-50">
+        <div class="bg-[#363b3f] p-12 md:p-24 rounded-[80px] w-full max-w-4xl border-[8px] border-white text-center shadow-2xl">
+            <h2 id="modal-title"></h2>
             
-            <form id="applyForm" class="space-y-16 text-left">
+            <form id="applyForm" class="space-y-20 text-left">
                 <input type="hidden" id="f-day">
                 <input type="hidden" id="f-time">
                 <input type="text" id="f-name" placeholder="이름 (Name)" required minlength="2" class="input-heavy">
@@ -117,14 +118,14 @@
                 <input type="text" id="f-attic" placeholder="다락방 (Darakbang)" required class="input-heavy">
                 <input type="tel" id="f-phone" placeholder="연락처 (01012345678)" required pattern="[0-9]{11}" class="input-heavy">
                 
-                <div class="flex gap-20 justify-center py-10 text-3xl font-bold">
-                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-12 h-12 accent-white"> 남자</label>
-                    <label class="flex items-center gap-6 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-12 h-12 accent-white"> 여자</label>
+                <div class="flex gap-24 justify-center py-12 text-4xl font-black">
+                    <label class="flex items-center gap-8 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-14 h-14 accent-white"> 남자</label>
+                    <label class="flex items-center gap-8 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-14 h-14 accent-white"> 여자</label>
                 </div>
                 
-                <div class="flex gap-10 pt-10">
-                    <button type="button" onclick="closeForm()" class="flex-1 py-8 border-[4px] border-white rounded-3xl text-4xl font-black">취소</button>
-                    <button type="submit" id="submitBtn" class="flex-1 py-8 bg-white text-[#363b3f] rounded-3xl text-4xl font-black">신청하기</button>
+                <div class="flex gap-12 pt-12">
+                    <button type="button" onclick="closeForm()" class="flex-1 py-10 border-[6px] border-white rounded-4xl text-5xl font-black">취소</button>
+                    <button type="submit" id="submitBtn" class="flex-1 py-10 bg-white text-[#363b3f] rounded-4xl text-5xl font-black">신청하기</button>
                 </div>
             </form>
         </div>
@@ -154,7 +155,7 @@
                 const timeOnly = key.split('_')[1];
                 if(closedSlots[key]) {
                     btn.disabled = true;
-                    btn.innerHTML = `<span>${timeOnly} (마감)</span>`;
+                    btn.innerHTML = `<span style="white-space: nowrap;">${timeOnly} (마감)</span>`;
                 } else {
                     btn.disabled = false;
                     btn.innerText = timeOnly;
@@ -166,7 +167,8 @@
         function openForm(d, t) { 
             document.getElementById('f-day').value = d; 
             document.getElementById('f-time').value = t; 
-            document.getElementById('modal-title').innerText = `${d} ${t}`; 
+            // 요일과 시간 사이 간격 확보를 위해 &nbsp; 추가 및 폰트 강제 적용
+            document.getElementById('modal-title').innerHTML = d + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + t; 
             document.getElementById('modal').classList.remove('hidden'); 
             document.body.style.overflow = 'hidden';
         }
@@ -196,7 +198,7 @@
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
-                // 알림창(alert) 없이 즉시 폼 닫기
+                // 알림창(alert) 삭제함. 바로 닫힘.
                 closeForm();
                 document.getElementById('applyForm').reset();
             } catch (err) { console.error(err); }
