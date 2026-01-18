@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAHWEH the HAPORETS</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --bg-pink: #F7E9E9;   /* 배경 연한 핑크 */
+            --highlight-pink: #E5B9B9; /* 호버 시 강조용 연핑크 */
+            --text-dark: #333333; 
+            --accent-gold: #B59A6D;
+        }
+
+        * { font-family: "Pretendard Variable", sans-serif !important; box-sizing: border-box; }
+        body { background-color: var(--bg-pink); color: var(--text-dark); margin: 0; }
+
+        .landing-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem; /* 가로 여백 유지 */
+        }
+
+        .landing-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        .landing-image {
+            width: 100%;
+            height: auto;
+            max-width: 600px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* [핵심 수정] 버튼 위치를 더 위로 상향 조정 */
+        .btn-modern {
+            position: absolute;
+            bottom: 10.5%;      /* 모바일: 8% -> 10.5%로 상향 (문구와 더 밀착) */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.6rem 1.4rem; /* 슬림한 너비 유지 */
+            background-color: rgba(51, 51, 51, 0.95);
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 2px solid transparent;
+            border-radius: 9999px; /* 원형 */
+            transition: all 0.3s ease;
+            cursor: pointer;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        @media (min-width: 768px) {
+            .btn-modern { 
+                bottom: 13.5%;  /* PC: 10% -> 13.5%로 상향 */
+                font-size: 1.1rem; 
+                padding: 0.8rem 2.2rem; 
+            }
+        }
+
+        /* 호버 효과: 연핑크 강조 */
+        .btn-modern:hover {
+            background-color: transparent;
+            color: var(--highlight-pink);
+            border-color: var(--highlight-pink);
+            transform: translateX(-50%) translateY(-2px);
+        }
+
+        /* 요일 타이틀 디자인 */
+        .section-header { 
+            font-weight: 800; 
+            color: var(--text-dark) !important; 
+            letter-spacing: 0.25em; 
+            font-size: 1.2rem; 
+        }
+        
+        .btn-slot { 
+            border: 1px solid rgba(0,0,0,0.04); 
+            background: white; 
+            padding: 0.7rem; 
+            font-weight: 600; 
+            border-radius: 8px; 
+            color: #555; 
+        }
+        .btn-slot:hover:not(:disabled) { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .btn-slot:disabled { background: rgba(255,255,255,0.4); color: #ddd; border-style: dashed; }
+        
+        .input-minimal { 
+            border-bottom: 2px solid #eee !important; 
+            background: transparent; 
+            padding: 0.9rem 0; 
+            width: 100%; 
+            outline: none; 
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="landing" class="landing-section">
+        <div class="landing-container">
+            <img src="crest.png.jpg" alt="고민상담소 메인" class="landing-image">
+            <button onclick="enterApp()" class="btn-modern">상담 신청하기</button>
+        </div>
+    </div>
+
+    <div id="main" class="hidden max-w-[900px] mx-auto p-6 py-16 text-center">
+        <div class="flex flex-col gap-14">
+            <div>
+                <h2 class="section-header mb-8">FRIDAY</h2>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
+                    <script>
+                        ['15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
+                            document.write(`<button onclick="openForm('금요일', '${t}')" class="btn-slot" data-key="금요일_${t}">${t}</button>`);
+                        });
+                    </script>
+                </div>
+            </div>
+            <div>
+                <h2 class="section-header mb-8">SATURDAY</h2>
+                <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
+                    <script>
+                        ['10:00','10:30','11:00','11:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','19:00'].forEach(t => {
+                            document.write(`<button onclick="openForm('토요일', '${t}')" class="btn-slot" data-key="토요일_${t}">${t}</button>`);
+                        });
+                    </script>
+                </div>
+            </div>
+            <div>
+                <h2 class="section-header mb-8">SUNDAY</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto">
+                    <script>
+                        ['10:00','10:30','11:00','11:30'].forEach(t => {
+                            document.write(`<button onclick="openForm('일요일', '${t}')" class="btn-slot" data-key="일요일_${t}">${t}</button>`);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="hidden fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-2xl w-full max-w-sm shadow-2xl border-t-[6px] border-[#B59A6D]">
+            <h2 id="modal-title" class="text-lg font-bold mb-6 text-center text-[#B59A6D]"></h2>
+            <form id="applyForm" class="space-y-4">
+                <input type="hidden" id="f-day">
+                <input type="hidden" id="f-time">
+                <input type="text" id="f-name" placeholder="성함을 입력하세요" required class="input-minimal">
+                <input type="number" id="f-age" placeholder="나이" required class="input-minimal">
+                <input type="text" id="f-attic" placeholder="다락방 이름" required class="input-minimal">
+                <input type="tel" id="f-phone" placeholder="연락처 (010...)" required class="input-minimal">
+                <input type="text" id="f-topic" placeholder="상담 받고 싶은 주제" required class="input-minimal">
+
+                <div class="flex gap-10 justify-center py-2 text-base font-bold">
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" value="남자" required class="w-4 h-4 accent-[#B59A6D]"> 남자</label>
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" value="여자" class="w-4 h-4 accent-[#B59A6D]"> 여자</label>
+                </div>
+
+                <div class="text-center pt-2">
+                    <p class="text-[11px] text-gray-400 mb-6">모든 상담 내용은 철저히 비밀로 유지됩니다.</p>
+                    <div class="flex gap-3">
+                        <button type="button" onclick="closeForm()" class="flex-1 py-3 border border-gray-100 text-gray-400 rounded-lg font-bold hover:bg-gray-50 transition">닫기</button>
+                        <button type="submit" id="submitBtn" class="flex-1 py-3 bg-[#333] text-white rounded-lg font-bold hover:bg-[#B59A6D] transition shadow-lg">신청 완료</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBa66Q5Ap0btmupxISOQfNsV8y5JUQAG2o",
+            authDomain: "kimhoin.firebaseapp.com",
+            projectId: "kimhoin",
+            storageBucket: "kimhoin.firebasestorage.app",
+            messagingSenderId: "143951884772",
+            appId: "1:143951884772:web:991545d9577a7a634c17f1",
+            measurementId: "G-FZDNYD4QCT"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        db.collection("appointments").onSnapshot((snapshot) => {
+            const closedSlots = {};
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                closedSlots[`${data.day}_${data.time}`] = true;
+            });
+            document.querySelectorAll('[data-key]').forEach(btn => {
+                const key = btn.getAttribute('data-key');
+                const timeOnly = key.split('_')[1];
+                if(closedSlots[key]) {
+                    btn.disabled = true;
+                    btn.innerHTML = `<span style="text-decoration: line-through; opacity: 0.3;">${timeOnly}</span>`;
+                } else {
+                    btn.disabled = false;
+                    btn.innerText = timeOnly;
+                }
+            });
+        });
+
+        function enterApp() { document.getElementById('landing').classList.add('hidden'); document.getElementById('main').classList.remove('hidden'); window.scrollTo(0,0); }
+        function openForm(d, t) { 
+            document.getElementById('f-day').value = d; 
+            document.getElementById('f-time').value = t; 
+            document.getElementById('modal-title').innerText = d + " " + t + " 상담 신청"; 
+            document.getElementById('modal').classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden';
+        }
+        function closeForm() { 
+            document.getElementById('modal').classList.add('hidden'); 
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('applyForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const day = document.getElementById('f-day').value;
+            const time = document.getElementById('f-time').value;
+            
+            let atticValue = document.getElementById('f-attic').value.trim();
+            if (!atticValue.endsWith("다락방")) { atticValue += " 다락방"; }
+
+            btn.disabled = true; btn.innerText = "제출 중...";
+
+            try {
+                const q = await db.collection("appointments").where("day", "==", day).where("time", "==", time).get();
+                if (!q.empty) { alert("이미 마감되었습니다!"); btn.disabled = false; return; }
+
+                await db.collection("appointments").add({
+                    day: day, time: time,
+                    name: document.getElementById('f-name').value,
+                    age: document.getElementById('f-age').value,
+                    attic: atticValue,
+                    phone: document.getElementById('f-phone').value,
+                    topic: document.getElementById('f-topic').value,
+                    gender: document.querySelector('input[name="gender"]:checked').value,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                closeForm();
+                document.getElementById('applyForm').reset();
+            } catch (err) { console.error(err); }
+            finally { btn.disabled = false; btn.innerText = "신청 완료"; }
+        });
+    </script>
+</body>
+</html>
+
+
